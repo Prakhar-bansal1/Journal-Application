@@ -19,8 +19,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.findByUsername(username);
         if (user != null) {
-          UserDetails userDetails =  org.springframework.security.core.userdetails.User.builder()
-            .username(user.getUsername())
+          UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
+            // here we are using the builder pattern because we dont have .builder() method in the User class that we created, 
+            // but we can use the builder pattern provided by Spring Security's User class to create a UserDetails object.
+          .username(user.getUsername())
             .password(user.getPassword())
             .roles(user.getRoles().toArray(new String[0]))
             .build();
